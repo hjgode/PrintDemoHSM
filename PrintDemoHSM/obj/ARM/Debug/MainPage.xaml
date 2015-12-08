@@ -1,0 +1,22 @@
+﻿<Page
+    x:Class="PrintDemoHSM.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PrintDemoHSM"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <FlyoutBase.AttachedFlyout>
+            <ListPickerFlyout/>
+        </FlyoutBase.AttachedFlyout>
+        <Button x:ConnectionId='1' x:Name="buttonPrintReceipt" Content="Print Receipt" HorizontalAlignment="Left" Height="16" Margin="185,218,0,0" VerticalAlignment="Top" Width="180"                     />
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="47,157,0,0" VerticalAlignment="Top" Width="172"/>
+        <Button x:ConnectionId='2' x:Name="btSearch" Content="BT search" HorizontalAlignment="Left" Margin="224,68,0,0" VerticalAlignment="Top" Width="141"                       />
+        <ComboBox x:Name="comboBoxBTpeers" HorizontalAlignment="Left" Height="62" Margin="47,68,0,0" VerticalAlignment="Top" Width="172"/>
+
+    </Grid>
+</Page>
+

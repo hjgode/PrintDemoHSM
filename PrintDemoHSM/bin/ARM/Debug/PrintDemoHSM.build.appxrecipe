@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>W81HJGODE</Machine>
+    <WindowsUser>E841719</WindowsUser>
+    <TargetPlatformIdentifier>WindowsPhoneApp</TargetPlatformIdentifier>
+    <TargetOsVersion>6.3</TargetOsVersion>
+    <TargetOsDescription>Windows Phone 8.1</TargetOsDescription>
+    <SolutionConfiguration>Debug|ARM</SolutionConfiguration>
+    <PackageArchitecture>arm</PackageArchitecture>
+    <PackageIdentityName>bbb6e089-44f4-40d9-a664-21c3f7d72ede</PackageIdentityName>
+    <IntermediateOutputPath>C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\obj\ARM\Debug\</IntermediateOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\PrintDemoHSM.exe">
+      <PackagePath>PrintDemoHSM.exe</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Honeywell\SDK\Mobility SDK for Windows Embedded 8.1\Assembly\HSM.Mobility.Printing.winmd">
+      <PackagePath>HSM.Mobility.Printing.winmd</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\packages\Newtonsoft.Json.7.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\Newtonsoft.Json.dll">
+      <PackagePath>Newtonsoft.Json.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Program Files %28x86%29\Honeywell\SDK\Mobility SDK for Windows Embedded 8.1\Assembly\HSM.Mobility.Printing.dll">
+      <PackagePath>HSM.Mobility.Printing.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\Logo.scale-240.png">
+      <PackagePath>Assets\Logo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\SmallLogo.scale-240.png">
+      <PackagePath>Assets\SmallLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\SplashScreen.scale-240.png">
+      <PackagePath>Assets\SplashScreen.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\Square71x71Logo.scale-240.png">
+      <PackagePath>Assets\Square71x71Logo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\StoreLogo.scale-240.png">
+      <PackagePath>Assets\StoreLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\WideLogo.scale-240.png">
+      <PackagePath>Assets\WideLogo.scale-240.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\Assets\printer_profiles.JSON">
+      <PackagePath>Assets\printer_profiles.JSON</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\printer_profiles.JSON">
+      <PackagePath>printer_profiles.JSON</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\PrintDemoHSM.xr.xml">
+      <PackagePath>PrintDemoHSM.xr.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\E841719\Documents\Visual Studio 2015\Projects\PrintDemoHSM\PrintDemoHSM\bin\ARM\Debug\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
