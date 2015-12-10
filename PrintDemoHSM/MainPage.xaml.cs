@@ -61,7 +61,7 @@ namespace PrintDemoHSM
             // this event is handled for you.
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private async void button_Click(object sender, RoutedEventArgs e)
         {
 
             StorageFolder InstallationFolder = Windows.ApplicationModel.Package.Current.InstalledLocation;
@@ -91,17 +91,110 @@ namespace PrintDemoHSM
 
                 if (linePrinter == null)
                     throw new Exception("Lineprinter init failed");
+#if DEBUG
+                // create a file with the given filename in the local folder; replace any existing file with the same name
+                StorageFile filePrint = await Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileAsync("esp.txt", CreationCollisionOption.ReplaceExisting);
+
+                string sPrintFile = filePrint.Path;
+                
+                linePrinter.StartFileEcho(sPrintFile, false);
+#endif
+                linePrinter.Connect(); //before GetPrintHandle or getting unexpected errors
+
+                int iLinePrinter = linePrinter.GetPrintHandle();    //addidtional step needed BEFORE accessing the printer!
+
                 linePrinter.RegisterErrorEvent(ErrorStatus);
-                linePrinter.Connect();
+                linePrinter.RegisterProgressEvent(progressStatus);
 
+#if DEBUG
+                
+                linePrinter.Write("hello");
+                linePrinter.NewLine(1);
+#else
                 printReceipt(ref linePrinter);
+#endif
 
+                linePrinter.Flush();
                 linePrinter.EndDoc();
+                linePrinter.Disconnect();
                 linePrinter.Close();
+#if DEBUG
+                linePrinter.StopFileEcho();
+                StorageFile file = await Windows.Storage.ApplicationData.Current.TemporaryFolder.GetFileAsync("esp.txt");
+                Stream stream = await file.OpenStreamForReadAsync();
+                StreamReader sr = new StreamReader(stream);
+                String sPrinted = sr.ReadToEnd();
+                System.Diagnostics.Debug.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+                System.Diagnostics.Debug.WriteLine(sPrinted);
+                System.Diagnostics.Debug.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++");
+#endif
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Printer Exception: " + ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
+
+        /// ************************************************************************************************
+        /// <summary>
+        /// UpdateStatusUI
+        /// </summary>
+        /// <remarks>
+        /// Update Status UI message
+        /// <Development> Implemented. </Development>                                         
+        /// ************************************************************************************************
+        public bool UpdateStatusUI(Int32 progStatus)
+        {
+            System.Diagnostics.Debug.WriteLine("progStatus: ", progStatus.ToString());
+            return false;
+        }
+        /// ************************************************************************************************
+        /// <summary>
+        /// progressStatus
+        /// </summary>
+        /// <remarks>
+        /// event - updates progress staut of printer
+        /// <param name="handle">handle</param>
+        /// <param name="progStatus">status value</param>
+        /// <Development> Implemented. </Development>                                         
+        /// ************************************************************************************************
+        public void progressStatus(UInt64 handle, Int32 progStatus)
+        {
+            string s = ((PrinterProgress)progStatus).ToString();
+            System.Diagnostics.Debug.WriteLine("progressStatus: handle=" + handle.ToString() +", status=" + progStatus.ToString() + ", " +s);
+            if (!UpdateStatusUI(progStatus))
+            {
+                switch (progStatus)
+                {
+                    case (int)PrinterProgress.MSG_CANCEL:
+                        SetStatusMsg(false, "PROGRESS_CANCEL_MSG");
+                        break;
+                    case (int)PrinterProgress.MSG_COMPLETE:
+                        SetStatusMsg(true, "PROGRESS_COMPLETE_MSG");
+                        break;
+                    case (int)PrinterProgress.MSG_ENDDOC:
+                        SetStatusMsg(true, "PROGRESS_ENDDOC_MSG");
+                        break;
+                    case (int)PrinterProgress.MSG_FINISHED:
+                        SetStatusMsg(true, "PROGRESS_FINISHED_MSG");
+                        break;
+                    case (int)PrinterProgress.MSG_STARTDOC:
+                        {
+                            //if (_bIsLinePrinter)
+                            //    EnableLinePrintingControls(true);
+                            //else
+                            //    EnableLabelPrintingControls(true);
+                            //this.btnConnect.IsEnabled = false;
+                            //this.btnDisconnect.IsEnabled = true;
+                            //if (null != _rm)
+                                SetStatusMsg(true, "CONNECT_SUCCESS");
+
+                        }
+                        break;
+                    default:
+                        SetStatusMsg(false, "PROGRESS_NONE_MSG");
+                        break;
+                }
             }
         }
 
@@ -218,9 +311,10 @@ namespace PrintDemoHSM
         /// ************************************************************************************************
         public void ErrorStatus(UInt64 handle, Int32 Errcode, string msg)
         {
+            string s = ((PrinterError)Errcode).ToString();
             try
             {
-                System.Diagnostics.Debug.WriteLine(msg);
+                System.Diagnostics.Debug.WriteLine(String.Format("handle: {0}, error={1}, msg='{2}', {3}", handle, Errcode, msg, s));
 
             }
             catch (Exception ex)
