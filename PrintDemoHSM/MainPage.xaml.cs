@@ -61,6 +61,11 @@ namespace PrintDemoHSM
             // this event is handled for you.
         }
 
+        int checkError(int iFunction, string s)
+        {
+            System.Diagnostics.Debug.WriteLine("function '"+s+"'  return code = " + iFunction.ToString());
+            return iFunction;
+        }
         private async void button_Click(object sender, RoutedEventArgs e)
         {
 
@@ -99,27 +104,31 @@ namespace PrintDemoHSM
                 
                 linePrinter.StartFileEcho(sPrintFile, false);
 #endif
-                linePrinter.Connect(); //before GetPrintHandle or getting unexpected errors
+                checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
 
-                int iLinePrinter = linePrinter.GetPrintHandle();    //addidtional step needed BEFORE accessing the printer!
+                int iRet = checkError(linePrinter.Connect(), "Connect"); //before GetPrintHandle or getting unexpected errors
+                if (iRet != 0)
+                    throw new Exception("Connect failed with error code=" + iRet.ToString());
 
-                linePrinter.RegisterErrorEvent(ErrorStatus);
-                linePrinter.RegisterProgressEvent(progressStatus);
+                int iLinePrinter = checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");    //addidtional step needed BEFORE accessing the printer!
+
+                iRet = checkError( linePrinter.RegisterErrorEvent(ErrorStatus), "RegisterErrorEvent");
+                iRet = checkError( linePrinter.RegisterProgressEvent(progressStatus), "RegisterProgressEvent");
 
 #if DEBUG
-                
-                linePrinter.Write("hello");
-                linePrinter.NewLine(1);
+
+                iRet = checkError( linePrinter.Write("hello"), "Write hello");
+                iRet = checkError( linePrinter.NewLine(1), "NewLine");
 #else
                 printReceipt(ref linePrinter);
 #endif
 
-                linePrinter.Flush();
-                linePrinter.EndDoc();
-                linePrinter.Disconnect();
-                linePrinter.Close();
+                checkError( linePrinter.Flush(), "flush");
+                checkError(linePrinter.EndDoc(), "EndDoc");
+                checkError(linePrinter.Disconnect(), "Disconnect");
+                checkError(linePrinter.Close(), "Close");
 #if DEBUG
-                linePrinter.StopFileEcho();
+                checkError(linePrinter.StopFileEcho(), "StopFileEcho");
                 StorageFile file = await Windows.Storage.ApplicationData.Current.TemporaryFolder.GetFileAsync("esp.txt");
                 Stream stream = await file.OpenStreamForReadAsync();
                 StreamReader sr = new StreamReader(stream);
@@ -145,7 +154,7 @@ namespace PrintDemoHSM
         /// ************************************************************************************************
         public bool UpdateStatusUI(Int32 progStatus)
         {
-            System.Diagnostics.Debug.WriteLine("progStatus: ", progStatus.ToString());
+            //System.Diagnostics.Debug.WriteLine("progStatus: ", progStatus.ToString());
             return false;
         }
         /// ************************************************************************************************
@@ -162,40 +171,40 @@ namespace PrintDemoHSM
         {
             string s = ((PrinterProgress)progStatus).ToString();
             System.Diagnostics.Debug.WriteLine("progressStatus: handle=" + handle.ToString() +", status=" + progStatus.ToString() + ", " +s);
-            if (!UpdateStatusUI(progStatus))
-            {
-                switch (progStatus)
-                {
-                    case (int)PrinterProgress.MSG_CANCEL:
-                        SetStatusMsg(false, "PROGRESS_CANCEL_MSG");
-                        break;
-                    case (int)PrinterProgress.MSG_COMPLETE:
-                        SetStatusMsg(true, "PROGRESS_COMPLETE_MSG");
-                        break;
-                    case (int)PrinterProgress.MSG_ENDDOC:
-                        SetStatusMsg(true, "PROGRESS_ENDDOC_MSG");
-                        break;
-                    case (int)PrinterProgress.MSG_FINISHED:
-                        SetStatusMsg(true, "PROGRESS_FINISHED_MSG");
-                        break;
-                    case (int)PrinterProgress.MSG_STARTDOC:
-                        {
-                            //if (_bIsLinePrinter)
-                            //    EnableLinePrintingControls(true);
-                            //else
-                            //    EnableLabelPrintingControls(true);
-                            //this.btnConnect.IsEnabled = false;
-                            //this.btnDisconnect.IsEnabled = true;
-                            //if (null != _rm)
-                                SetStatusMsg(true, "CONNECT_SUCCESS");
+            //if (!UpdateStatusUI(progStatus))
+            //{
+            //    switch (progStatus)
+            //    {
+            //        case (int)PrinterProgress.MSG_CANCEL:
+            //            SetStatusMsg(false, "PROGRESS_CANCEL_MSG");
+            //            break;
+            //        case (int)PrinterProgress.MSG_COMPLETE:
+            //            SetStatusMsg(true, "PROGRESS_COMPLETE_MSG");
+            //            break;
+            //        case (int)PrinterProgress.MSG_ENDDOC:
+            //            SetStatusMsg(true, "PROGRESS_ENDDOC_MSG");
+            //            break;
+            //        case (int)PrinterProgress.MSG_FINISHED:
+            //            SetStatusMsg(true, "PROGRESS_FINISHED_MSG");
+            //            break;
+            //        case (int)PrinterProgress.MSG_STARTDOC:
+            //            {
+            //                //if (_bIsLinePrinter)
+            //                //    EnableLinePrintingControls(true);
+            //                //else
+            //                //    EnableLabelPrintingControls(true);
+            //                //this.btnConnect.IsEnabled = false;
+            //                //this.btnDisconnect.IsEnabled = true;
+            //                //if (null != _rm)
+            //                    SetStatusMsg(true, "CONNECT_SUCCESS");
 
-                        }
-                        break;
-                    default:
-                        SetStatusMsg(false, "PROGRESS_NONE_MSG");
-                        break;
-                }
-            }
+            //            }
+            //            break;
+            //        default:
+            //            SetStatusMsg(false, "PROGRESS_NONE_MSG");
+            //            break;
+            //    }
+            //}
         }
 
         /// ************************************************************************************************
