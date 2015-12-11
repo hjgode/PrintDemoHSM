@@ -1,6 +1,6 @@
 <XamlCompilerSaveState>
   <ReferenceAssemblyList>
-    <LocalAssembly PathName="c:\users\e841719\documents\visual studio 2015\projects\printdemohsm\printdemohsm\obj\arm\debug\intermediatexaml\printdemohsm.exe" HashGuid="4cff7a3b-799a-bf6b-675a-14a45143f307" />
+    <LocalAssembly PathName="c:\users\e841719\documents\visual studio 2015\projects\printdemohsm\printdemohsm\obj\arm\debug\intermediatexaml\printdemohsm.exe" HashGuid="bb902bda-ad63-77bf-b6e0-1ed00a92c813" />
     <ReferenceAssembly PathName="c:\program files (x86)\microsoft sdks\windowsphoneapp\v8.1\extensionsdks\microsoft.vclibs\12.0\references\commonconfiguration\neutral\platform.winmd" HashGuid="58b6b6d1-928e-9908-9804-eb460e5e101b" />
     <ReferenceAssembly PathName="c:\program files (x86)\honeywell\sdk\mobility sdk for windows embedded 8.1\assembly\hsm.mobility.printing.winmd" HashGuid="1be7312d-b2dc-5581-1819-d83989edc34a" />
     <ReferenceAssembly PathName="c:\users\e841719\documents\visual studio 2015\projects\printdemohsm\packages\newtonsoft.json.7.0.1\lib\portable-net45+wp80+win8+wpa81+dnxcore50\newtonsoft.json.dll" HashGuid="86223907-5808-be51-71b4-c872f8140e29" />

@@ -78,32 +78,33 @@ namespace PrintDemoHSM
                 sBTMAC = sBTMAC.Replace(":", "");
                 sBTMAC = sBTMAC.Replace("(", "");
                 sBTMAC = sBTMAC.Replace(")", "");
-                //_strMacAddr = this.txtMacAddr.Text = "00066602C42A";
-                //                                      00A0961193DC
-                //sPrinter = "PB42 Bt Printer";     //throws specified module could not be found exception
-                //sPrinter = "PB42";                //throws specified module could not be found exception
+
                 System.Diagnostics.Debug.WriteLine("About to print: {0}, {1}", sPrinter, sBTMAC);
+
+                //### 1. ### 
+                //load new LinePrinter
+                if (linePrinter != null)
+                {
+                    linePrinter.Disconnect();
+                    linePrinter.Close();
+                    linePrinter = null;
+                }
                 linePrinter = new LinePrinter(JSON_FILE, sPrinter, sBTMAC);
 
-                /*
-                About to print: PB42, 00A0961193DC
-                Exception thrown: 'System.IO.FileNotFoundException' in PrintDemoHSM.exe
-                Printer Exception: The specified module could not be found. (Exception from HRESULT: 0x8007007E)
-                at System.StubHelpers.StubHelpers.GetWinRTFactoryObject(IntPtr pCPCMD)
-                at HSM.Mobility.Printing.LinePrinter..ctor(String filename, String printername, String printeraddr)
-                at PrintDemoHSM.MainPage.button_Click(Object sender, RoutedEventArgs e)
-                */
-
                 if (linePrinter == null)
-                    throw new Exception("Lineprinter init failed");
+                    throw new Exception("new Lineprinter() failed");
                 int iRet;
 #if DEBUG
                 // create a file with the given filename in the local folder; replace any existing file with the same name
                 StorageFile filePrint = await Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileAsync("esp.txt", CreationCollisionOption.ReplaceExisting);
 
-                string sPrintFile = filePrint.Path;
+                string sPrintFile = "esp.txt";// filePrint.Path;
 
-                checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
+                //### 2. ### 
+                //GetPrinthandle()
+                iRet = checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
+                System.Diagnostics.Debug.WriteLine("GetPrintHandle() returned: " + ((PrinterError)(iRet)).ToString());
+
                 iRet = linePrinter.StartFileEcho(sPrintFile, false);
 #else
                 checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
@@ -115,6 +116,8 @@ namespace PrintDemoHSM
 
                 int iLinePrinter = checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");    //addidtional step needed BEFORE accessing the printer!
 
+                //### 3. ###
+                //register the callbacks
                 iRet = checkError( linePrinter.RegisterErrorEvent(ErrorStatus), "RegisterErrorEvent");
                 iRet = checkError( linePrinter.RegisterProgressEvent(progressStatus), "RegisterProgressEvent");
 
@@ -140,6 +143,7 @@ namespace PrintDemoHSM
                 System.Diagnostics.Debug.WriteLine(sPrinted);
                 System.Diagnostics.Debug.WriteLine("+++++++++++++++++++++++++++++++++++++++++++++++++++");
 #endif
+                linePrinter = null;
             }
             catch (Exception ex)
             {
