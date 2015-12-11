@@ -96,17 +96,20 @@ namespace PrintDemoHSM
 
                 if (linePrinter == null)
                     throw new Exception("Lineprinter init failed");
+                int iRet;
 #if DEBUG
                 // create a file with the given filename in the local folder; replace any existing file with the same name
                 StorageFile filePrint = await Windows.Storage.ApplicationData.Current.TemporaryFolder.CreateFileAsync("esp.txt", CreationCollisionOption.ReplaceExisting);
 
                 string sPrintFile = filePrint.Path;
-                
-                linePrinter.StartFileEcho(sPrintFile, false);
-#endif
-                checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
 
-                int iRet = checkError(linePrinter.Connect(), "Connect"); //before GetPrintHandle or getting unexpected errors
+                checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
+                iRet = linePrinter.StartFileEcho(sPrintFile, false);
+#else
+                checkError(linePrinter.GetPrintHandle(), "GetPrintHandle()");
+#endif
+
+                iRet = checkError(linePrinter.Connect(), "Connect"); 
                 if (iRet != 0)
                     throw new Exception("Connect failed with error code=" + iRet.ToString());
 
